@@ -11,23 +11,17 @@ download_uris = [
     "https://divvy-tripdata.s3.amazonaws.com/Divvy_Trips_2220_Q1.zip",
 ]
 
-
 def main():
     # your code here
         
     os.makedirs("downloads", exist_ok='TRUE')
-
-    for file in download_uris:
-        r = requests.get(file, stream=True)
-        save_path = '/downloads' %r
-
 
 for file_uri in download_uris:
     # Use os.path.basename to get the filename from the URL
     file_name = os.path.basename(file_uri)
     
     # Use os.path.join to create a platform-independent file path
-    save_path = os.path.join('/downloads', file_name)
+    save_path = os.path.join('downloads', file_name)
     
     # Use try-except to handle potential exceptions during the request
     try:
