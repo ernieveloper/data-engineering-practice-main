@@ -13,7 +13,11 @@ download_uris = [
 
 def main():
     # your code here
-    pass
+    import os
+    
+    os.makedirs("downloads", exist_ok='TRUE')
+
+    #pass
 
 
 if __name__ == "__main__":
