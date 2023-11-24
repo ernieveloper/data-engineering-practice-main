@@ -22,6 +22,11 @@ for file_uri in download_uris:
     
     # Use os.path.join to create a platform-independent file path
     save_path = os.path.join('downloads', file_name)
+
+    # Check if the file already exists locally
+    if os.path.exists(save_path):
+        print(f"File '{file_name}' already exists locally. Skipping download.")
+        continue  # Skip to the next iteration
     
     # Use try-except to handle potential exceptions during the request
     try:
@@ -32,13 +37,12 @@ for file_uri in download_uris:
                 # Iterate over the response content to download the file in chunks
                 for chunk in response.iter_content(chunk_size=8192):
                     if chunk:  # Filter out keep-alive new chunks
-                        file.write(chunk)
+                         print(f"Error downloading file '{file_name}': {e}")
 
         print(f"File '{file_name}' downloaded successfully to '{save_path}'.")
-
     except requests.exceptions.RequestException as e:
+        
         print(f"Error downloading file '{file_name}': {e}")
-
 
 
 if __name__ == "__main__":
