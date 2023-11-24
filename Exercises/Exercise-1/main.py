@@ -8,7 +8,7 @@ download_uris = [
     "https://divvy-tripdata.s3.amazonaws.com/Divvy_Trips_2019_Q3.zip",
     "https://divvy-tripdata.s3.amazonaws.com/Divvy_Trips_2019_Q4.zip",
     "https://divvy-tripdata.s3.amazonaws.com/Divvy_Trips_2020_Q1.zip",
-    "https://divvy-tripdata.s3.amazonaws.com/Divvy_Trips_2220_Q1.zip",
+    "https://divvy-tripdata.s3.amazonaws.com/Divvy_Trips_2020_Q2.zip",
 ]
 
 def main():
@@ -34,10 +34,11 @@ def main():
                 response.raise_for_status()  # Raise an error for bad responses (e.g., 404)
 
                 with open(save_path, 'wb') as file:
+
                     # Iterate over the response content to download the file in chunks
                     for chunk in response.iter_content(chunk_size=8192):
                         if chunk:  # Filter out keep-alive new chunks
-                             file.write(chunk)
+                            file.write(chunk)
 
             print(f"File '{file_name}' downloaded successfully to '{save_path}'.")
         except requests.exceptions.RequestException as e:
