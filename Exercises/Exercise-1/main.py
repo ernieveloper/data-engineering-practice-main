@@ -1,6 +1,8 @@
 import requests
 import os
 
+from zipfile import ZipFile
+
 download_uris = [
     "https://divvy-tripdata.s3.amazonaws.com/Divvy_Trips_2018_Q4.zip",
     "https://divvy-tripdata.s3.amazonaws.com/Divvy_Trips_2019_Q1.zip",
@@ -13,8 +15,10 @@ download_uris = [
 
 def main():
     # your code here
+
+    directory = "Exercises\\Exercise-1\\downloads"
         
-    os.makedirs("Exercises/Exercise-1/downloads", exist_ok=True)
+    os.makedirs(directory, exist_ok=True)
 
     for file_uri in download_uris:
         # Use os.path.basename to get the filename from the URL
@@ -44,6 +48,23 @@ def main():
         except requests.exceptions.RequestException as e:
             print(f"Error downloading file '{file_name}': {e}")
 
+    
+    for filename in os.listdir(directory):
+        f = os.path.join(directory, filename)
+        # checking if it is a file
+        if os.path.isfile(f):
+            # loading the temp.zip and creating a zip object
+            try:
+                with ZipFile(f, 'r') as zObject: 
+                    zObject.extractall(path=directory)
+                    print ("The CSV has been extracted from the zip file",f)
+                    zObject.close() 
+            except Exception as e:
+                # By this way we can know about the type of error occurring
+                print("there was an error: ",e)
+
+        os.remove(f)
+        print("The zip file",f,"has been removed")
 
 if __name__ == "__main__":
     main()
