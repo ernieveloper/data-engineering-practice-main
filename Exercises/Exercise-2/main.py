@@ -1,5 +1,5 @@
 import requests
-import pandas
+import pandas as pd
 from bs4 import BeautifulSoup
 
 def main():
@@ -12,16 +12,29 @@ def main():
     response = requests.get(url)
 
     if response.status_code == 200:
-        #Parse the HTML content
-        soup = BeautifulSoup(response.content,'html.parser')
+        soup = BeautifulSoup(response.content,"html.parser")
+        # Finding the table
+        #table = soup.find('table')
 
-        #Find all links on the page
-        links = soup.find_all('a')
+        # Defining the dataframe
+        df = pd.DataFrame(columns=['Name', 'Last Modified', 'Size', 'Description'])
 
-        #Extract href attribute from each link
-        for link in links:
-            href = link.get('href')
-            print(href)
+        # Collecting Ddata
+        for row in soup.find_all('tr'):    
+            # Find all data for each column
+            columns = row.find_all('td')
+            
+            if(columns != []):
+                name = columns[0].text.strip()
+                print(name)
+                last_modified = columns[1].text.strip()
+                size = columns[2].span.text[0].strip('&0.')
+                description = columns[3].span.text[0].strip('&0.')
+
+                df = df.append({'Name': name, 'Last Modified': last_modified, 'Size': size, 'Description': description}, ignore_index=True)
+
+        df.head()
+
     else:
         print("Failed to fetch the webpage. Status code:", response.status_code)
     pass

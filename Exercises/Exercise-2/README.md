@@ -40,3 +40,7 @@ Generally, your script should do the following ...
 3. Build the `URL` required to download this file, and write the file locally.
 4. Open the file with `Pandas` and find the records with the highest `HourlyDryBulbTemperature`.
 5. Print this to stdout/command line/terminal.
+
+--My notes:
+References I found along the way:
+https://realpython.com/beautiful-soup-web-scraper-python/#step-1-inspect-your-data-source
