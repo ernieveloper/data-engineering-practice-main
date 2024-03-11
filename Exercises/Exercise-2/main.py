@@ -26,13 +26,14 @@ def main():
             
             if(columns != []):
                 name = columns[0].text.strip()
-                print(name)
                 last_modified = columns[1].text.strip()
-                size = columns[2].span.text[0].strip('&0.')
-                description = columns[3].span.text[0].strip('&0.')
+                size = columns[2].text.strip()
+                #size = columns[2].span.text[0].strip('&0.')
+                #description = columns[3].span.text[0].strip('&0.')
+                description = columns[3].text.strip()
 
+                #df = pd.DataFrame({'Name': name, 'Last Modified': last_modified, 'Size': size, 'Description': description}, ignore_index=True)
                 df = df.append({'Name': name, 'Last Modified': last_modified, 'Size': size, 'Description': description}, ignore_index=True)
-
         df.head()
 
     else:
