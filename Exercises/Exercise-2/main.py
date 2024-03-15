@@ -2,6 +2,42 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 
+def file_download (file_uri):
+
+    import os
+
+    #Create download directoy if it does not exist
+    directory = "Exercises\\Exercise-2\\downloads"
+    os.makedirs(directory, exist_ok=True)
+
+    # Use os.path.basename to get the filename from the URL
+    file_name = os.path.basename(file_uri)
+        
+    # Use os.path.join to create a platform-independent file path
+    save_path = os.path.join('Exercises','Exercise-2','downloads', file_name)
+
+    # Check if the file already exists locally, if it exists then print a message and 
+    # stop the flow of the funciton.
+    if os.path.exists(save_path):
+        print(f"File '{file_name}' already exists locally. Skipping download.")
+        return
+    # Use try-except to handle potential exceptions during the request
+    try:
+        with requests.get(file_uri, stream=True) as response:
+            response.raise_for_status()  # Raise an error for bad responses (e.g., 404)
+
+        with open(save_path, 'wb') as file:
+
+        # Iterate over the response content to download the file in chunks
+            for chunk in response.iter_content(chunk_size=8192):
+                if chunk:  # Filter out keep-alive new chunks
+                    file.write(chunk)
+
+        print(f"File '{file_name}' downloaded successfully to '{save_path}'.")
+    
+    except requests.exceptions.RequestException as e:
+        print(f"Error downloading file '{file_name}': {e}")
+
 def main():
     # your code here
 
@@ -42,14 +78,18 @@ def main():
 
         #Look for the value 'Last Modified' column value '2024-01-19 10:08'
         result = df[df['Last Modified'] == '2024-01-19 10:45']
-        print(len(result), "recrords for 2024-01-19 10:45")
-        #print(df.index)
+        print(len(result), "recrords for the Last Modified value 2024-01-19 10:45")
+        print('')
         print(result)
-        #download_link = url + df.loc[1,'Name']
-        #print(download_link)
-        #print(df.loc['Name'][0])
-    else:
-        print("Failed to fetch the webpage. Status code:", response.status_code)
+
+        #Create download link for the row with index 3
+        print('')
+        file_uri = url + df.loc[3,'Name']
+        print(file_uri)
+        print('')
+        print("Downloading the File")
+        file_download(file_uri)
+        
     pass
 
 if __name__ == "__main__":
