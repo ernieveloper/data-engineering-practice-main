@@ -32,8 +32,11 @@ def main():
                 #description = columns[3].span.text[0].strip('&0.')
                 description = columns[3].text.strip()
 
-                #df = pd.DataFrame({'Name': name, 'Last Modified': last_modified, 'Size': size, 'Description': description}, ignore_index=True)
-                df = df.append({'Name': name, 'Last Modified': last_modified, 'Size': size, 'Description': description}, ignore_index=True)
+                #df = df.append({'Name': name, 'Last Modified': last_modified, 'Size': size, 'Description': description}, ignore_index=True)
+                #df_new_row = pd.DataFrame({'Name': name, 'Last Modified': last_modified, 'Size': size, 'Description': description}, ignore_index=True)
+                #Adding the new rows to the datafram using a list and then concatenating them to the data fram. 
+                #https://stackoverflow.com/questions/70837397/good-alternative-to-pandas-append-method-now-that-it-is-being-deprecated#:~:text=append%20was%20deprecated%20because%3A%20%22Series,'t%20be
+                df = pd.concat([df,pd.DataFrame.from_records([{'Name': name, 'Last Modified': last_modified, 'Size': size, 'Description': description }])])
         df.head()
 
     else:
