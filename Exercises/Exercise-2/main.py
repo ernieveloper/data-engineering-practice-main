@@ -31,18 +31,17 @@ def main():
                 #size = columns[2].span.text[0].strip('&0.')
                 #description = columns[3].span.text[0].strip('&0.')
                 description = columns[3].text.strip()
-
-                #df = df.append({'Name': name, 'Last Modified': last_modified, 'Size': size, 'Description': description}, ignore_index=True)
-                #df_new_row = pd.DataFrame({'Name': name, 'Last Modified': last_modified, 'Size': size, 'Description': description}, ignore_index=True)
-                #Adding the new rows to the datafram using a list and then concatenating them to the data fram. 
+                #Add the new rows to the datafram using a list and then concatenating them to the data fram. 
                 #https://stackoverflow.com/questions/70837397/good-alternative-to-pandas-append-method-now-that-it-is-being-deprecated#:~:text=append%20was%20deprecated%20because%3A%20%22Series,'t%20be
                 df = pd.concat([df,pd.DataFrame.from_records([{'Name': name, 'Last Modified': last_modified, 'Size': size, 'Description': description }])])
-        df.head()
+        #print(df.head())
+        #Look for the value 'Last Modified' column value '2024-01-19 10:08'
+        result = df[df['Last Modified'] == '2024-01-19 10:08']
+        print(result)
 
     else:
         print("Failed to fetch the webpage. Status code:", response.status_code)
     pass
-
 
 if __name__ == "__main__":
     main()
