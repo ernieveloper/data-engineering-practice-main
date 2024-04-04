@@ -26,12 +26,12 @@ def file_download (file_uri):
         with requests.get(file_uri, stream=True) as response:
             response.raise_for_status()  # Raise an error for bad responses (e.g., 404)
 
-        with open(save_path, 'wb') as file:
+            with open(save_path, 'wb') as file:
 
-        # Iterate over the response content to download the file in chunks
-            for chunk in response.iter_content(chunk_size=8192):
-                if chunk:  # Filter out keep-alive new chunks
-                    file.write(chunk)
+            # Iterate over the response content to download the file in chunks
+                for chunk in response.iter_content(chunk_size=8192):
+                    if chunk:  # Filter out keep-alive new chunks
+                        file.write(chunk)
 
         print(f"File '{file_name}' downloaded successfully to '{save_path}'.")
     
@@ -89,6 +89,8 @@ def main():
         print('')
         print("Downloading the File")
         file_download(file_uri)
+
+     
         
     pass
 
