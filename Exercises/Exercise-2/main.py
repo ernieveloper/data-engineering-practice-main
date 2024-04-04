@@ -49,8 +49,6 @@ def main():
 
     if response.status_code == 200:
         soup = BeautifulSoup(response.content,"html.parser")
-        # Finding the table
-        #table = soup.find('table')
 
         # Defining the dataframe
         df = pd.DataFrame(columns=['Name', 'Last Modified', 'Size', 'Description'])
@@ -66,7 +64,7 @@ def main():
                 size = columns[2].text.strip()
                 description = columns[3].text.strip()
                 
-                #Add the new rows to the datafram using a list and then concatenating them to the data fram. 
+                #Add the new rows to the datafram using a list and then concatenating them to the data frame. 
                 #https://stackoverflow.com/questions/70837397/good-alternative-to-pandas-append-method-now-that-it-is-being-deprecated#:~:text=append%20was%20deprecated%20because%3A%20%22Series,'t%20be
                 df = pd.concat([df,pd.DataFrame.from_records([{'Name': name, 'Last Modified': last_modified, 'Size': size, 'Description': description }])])
                 
@@ -78,19 +76,20 @@ def main():
 
         #Look for the value 'Last Modified' column value '2024-01-19 10:08'
         result = df[df['Last Modified'] == '2024-01-19 10:45']
-        print(len(result), "recrords for the Last Modified value 2024-01-19 10:45")
+        print(len(result), "records for the Last Modified value 2024-01-19 10:45")
         print('')
         print(result)
 
         #Create download link for the row with index 3
         print('')
-        file_uri = url + df.loc[3,'Name']
-        print(file_uri)
+        file_name = df.loc[3,'Name']
+        file_uri = url + file_name
+        print("We will download the fist file that corresponds to the date 2024-01-19",file_uri)
         print('')
         print("Downloading the File")
         file_download(file_uri)
 
-     
+        df2 = pd.read_csv("Exercises\\Exercise-2\\downloads",file_name)
         
     pass
 
