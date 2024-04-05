@@ -6,6 +6,8 @@ def file_download (file_uri):
 
     import os
 
+    global directory
+    
     #Create download directoy if it does not exist
     directory = "Exercises\\Exercise-2\\downloads"
     os.makedirs(directory, exist_ok=True)
