@@ -91,7 +91,7 @@ def main():
         print("Downloading the File")
         file_download(file_uri)
 
-        df2 = pd.read_csv("Exercises\\Exercise-2\\downloads",file_name)
+        df2 = pd.read_csv(f{directory}{file_name})
         
     pass
 
