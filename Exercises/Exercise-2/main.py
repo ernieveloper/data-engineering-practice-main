@@ -93,6 +93,9 @@ def main():
 
         df2 = pd.read_csv(f"{directory}\\{file_name}")
         
+        #Print the records with the highest `HourlyDryBulbTemperature`
+        results = df2.loc[df2["HourlyDryBulbTemperature"] == df2["HourlyDryBulbTemperature"].max()]
+        print (results)
     pass
 
 if __name__ == "__main__":
