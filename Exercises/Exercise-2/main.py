@@ -1,4 +1,5 @@
 import requests
+import sys
 import pandas as pd
 from bs4 import BeautifulSoup
 
@@ -9,7 +10,8 @@ def file_download (file_uri):
     global directory
     
     #Create download directoy if it does not exist
-    directory = "Exercises\\Exercise-2\\downloads"
+    #directory = "Exercises\\Exercise-2\\downloads"
+    directory = "Exercises//Exercise-2//downloads"
     os.makedirs(directory, exist_ok=True)
 
     # Use os.path.basename to get the filename from the URL
@@ -66,32 +68,36 @@ def main():
                 size = columns[2].text.strip()
                 description = columns[3].text.strip()
                 
-                #Add the new rows to the datafram using a list and then concatenating them to the data frame. 
+                #Add the new rows to the dataframe using a list and then concatenating them to the data frame. 
                 #https://stackoverflow.com/questions/70837397/good-alternative-to-pandas-append-method-now-that-it-is-being-deprecated#:~:text=append%20was%20deprecated%20because%3A%20%22Series,'t%20be
                 df = pd.concat([df,pd.DataFrame.from_records([{'Name': name, 'Last Modified': last_modified, 'Size': size, 'Description': description }])])
                 
                 #Setting a progressive index for the dataframe
                 df.reset_index(drop=True, inplace=True)
         
-        print(df.head())
-        print('')
+        #print(df.head())
+        #print('')
 
-        #Look for the value 'Last Modified' column value '2024-01-19 10:08'
-        result = df[df['Last Modified'] == '2024-01-19 10:45']
-        print(len(result), "records for the Last Modified value 2024-01-19 10:45")
-        print('')
-        print(result)
+        #Look for the dataframe rows with 'Last Modified' column value that matches the specified date and time.
+                
+        date_time = '2024-01-19 10:45'
 
-        #Create download link for the row with index 3
-        print('')
-        file_name = df.loc[3,'Name']
+        try:
+            filtered_df = df.loc[df['Last Modified'] == date_time].iloc[0]
+        except IndexError:
+            print("No rows found with the specified condition.")
+            sys.exit(1)
+        
+        print(filtered_df)
+
+        print('') 
+        file_name = filtered_df.loc['Name']
         file_uri = url + file_name
-        print("We will download the fist file that corresponds to the date 2024-01-19",file_uri)
-        print('')
-        print("Downloading the File")
+        print(f"Downloading the first file that corresponds to the date '{date_time}': {file_uri}")
         file_download(file_uri)
 
-        df2 = pd.read_csv(f"{directory}\\{file_name}")
+        #df2 = pd.read_csv(f"{directory}\\{file_name}")
+        df2 = pd.read_csv(f"{directory}//{file_name}")
         
         #Print the records with the highest `HourlyDryBulbTemperature`
         results = df2.loc[df2["HourlyDryBulbTemperature"] == df2["HourlyDryBulbTemperature"].max()]
