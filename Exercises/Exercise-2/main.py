@@ -10,7 +10,6 @@ def file_download (file_uri):
     global directory
     
     #Create download directoy if it does not exist
-    #directory = "Exercises\\Exercise-2\\downloads"
     directory = "Exercises//Exercise-2//downloads"
     os.makedirs(directory, exist_ok=True)
 
@@ -96,7 +95,6 @@ def main():
         print(f"Downloading the first file that corresponds to the date '{date_time}': {file_uri}")
         file_download(file_uri)
 
-        #df2 = pd.read_csv(f"{directory}\\{file_name}")
         df2 = pd.read_csv(f"{directory}//{file_name}")
         
         #Print the records with the highest `HourlyDryBulbTemperature`
